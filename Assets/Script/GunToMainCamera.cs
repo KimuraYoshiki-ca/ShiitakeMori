@@ -2,6 +2,7 @@
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine.UI;
 
 /* GunToMainCameraクラス
 	クリックで弾を発射
@@ -22,12 +23,21 @@ public class GunToMainCamera : MonoBehaviour
 	public const int ChangePrehubCnt = 5;
 	// しいたけを撃った数をカウントし周期的に変える
 	private long _shotLoopCnt;
+	// しいたけを撃つ範囲のUI
+	public Button ShotHitRange;
 
 	// Use this for initialization
 	void Start()
 	{
 		// 撃ったしいたけのループカウントを初期化
 		_shotLoopCnt = 0;
+
+		// スクリーンの大きさを取得、ボタンの大きさを設定
+		float w = Screen.width;
+		float h = Screen.height;
+		ShotHitRange.GetComponent<RectTransform>().anchoredPosition = new Vector3( 0.0f, h * 0.5f - h / 3.0f, 0.0f );
+		ShotHitRange.GetComponent<RectTransform>().sizeDelta = new Vector2( w, h / 3.0f * 2.0f );
+
 
 		// しいたけをマウス左クリックで飛ばす処理(UniRx)
 		this.UpdateAsObservable().Where( _ => Input.GetMouseButtonDown( 0 ) )
