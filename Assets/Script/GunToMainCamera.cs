@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.UI;
@@ -20,11 +19,11 @@ public class GunToMainCamera : MonoBehaviour
 	// しいたけを出現させる距離(奥行の位置)
 	public float SetDistance = 10.0f;
 	// しいたけの種類を変更するタイミング
-	public const int ChangePrehubCnt = 5;
+	public int ChangePrehubCnt;
 	// しいたけを撃った数をカウントし周期的に変える
 	private long _shotLoopCnt;
 	// しいたけを撃つ範囲のUI
-	public Button ShotHitRange;
+	[ SerializeField ] public Button ShotHitRange;
 
 	// Use this for initialization
 	void Start()
@@ -35,15 +34,16 @@ public class GunToMainCamera : MonoBehaviour
 		// スクリーンの大きさを取得、ボタンの大きさを設定
 		float w = Screen.width;
 		float h = Screen.height;
-		ShotHitRange.GetComponent<RectTransform>().anchoredPosition = new Vector3( 0.0f, h * 0.5f - h / 3.0f, 0.0f );
-		ShotHitRange.GetComponent<RectTransform>().sizeDelta = new Vector2( w, h / 3.0f * 2.0f );
+		ShotHitRange.GetComponent< RectTransform >().anchoredPosition = new Vector3( 0.0f, h * 0.5f - h / 4.0f, 0.0f );
+		ShotHitRange.GetComponent< RectTransform >().sizeDelta = new Vector2( w, h / 4.0f * 2.0f );
 
 
 		// しいたけをマウス左クリックで飛ばす処理(UniRx)
 		this.UpdateAsObservable().Where( _ => Input.GetMouseButtonDown( 0 ) )
-			.ThrottleFirst( TimeSpan.FromMilliseconds( 300 ) )
-			.Subscribe( x =>
-			OnMouseChick()
+			.Where( _ => 0 < Input.mousePosition.x && w > Input.mousePosition.x )
+			.Where( _ => h / 3.0f < Input.mousePosition.y && h > Input.mousePosition.y )
+			.Subscribe(x =>
+						OnMouseChick()
 			);
 
 	}
@@ -76,6 +76,13 @@ public class GunToMainCamera : MonoBehaviour
 		// フィールド上にあるしいたけの数をカウント
 		Number score = ScoreText.GetComponent< Number >();
 		score.AddNumberCnt();
+
+	}
+
+	// しいたけの種類番号を返却
+	public long GetPrehubType()
+	{
+		return ( _shotLoopCnt % ChangePrehubCnt ) / ( ChangePrehubCnt - 1 );
 
 	}
 

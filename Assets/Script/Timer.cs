@@ -20,9 +20,9 @@ public class Timer : MonoBehaviour
 		// UniRxでタイマーの処理(リアルタイム換算)
 		this.UpdateAsObservable().ThrottleFirst( TimeSpan.FromSeconds( 1 ) )
 			.Skip( FirstStopTime )
-			.Where( _ => TimerText.GetComponent<Number>().NumericValue > 0 )
+			.Where( _ => TimerText.GetComponent< Number >().NumericValue > 0 )
 			.Subscribe( _ =>
-			TimerText.GetComponent<Number>().SubNumberCnt()
+			TimerText.GetComponent< Number >().SubNumberCnt()
 			);
 
 	}
@@ -32,5 +32,13 @@ public class Timer : MonoBehaviour
 	{
 	
 	}
+
+	// 時間切れフラグ
+	public bool TimeOutFlag()
+	{
+		return TimerText.GetComponent<Number>().NumericValue > 0;
+
+	}
+
 
 }
