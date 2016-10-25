@@ -2,6 +2,7 @@
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.UI;
+using System.Linq;
 
 public class InputCamera : MonoBehaviour
 {
@@ -55,7 +56,8 @@ public class InputCamera : MonoBehaviour
 
 	void Move()
 	{
-		transform.Rotate(Input.GetAxis( "Mouse Y" ) * 2.25f, ( Input.GetAxis( "Mouse X" ) * 2.25f ), 0.0f);
+		//transform.Rotate(Input.GetAxis( "Mouse Y" ) * 2.25f, ( Input.GetAxis( "Mouse X" ) * 2.25f ), 0.0f);
+		transform.Rotate(Input.touches.First().deltaPosition.y, Input.touches.First().deltaPosition.x,0.0f);
 
 	}
 

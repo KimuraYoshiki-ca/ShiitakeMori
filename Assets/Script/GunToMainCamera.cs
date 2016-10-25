@@ -67,7 +67,7 @@ public class GunToMainCamera : MonoBehaviour
 		// マウス座標取得、カメラから少し離れた位置から出すためZ値を変更
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = SetDistance;
-
+		
 		// スクリーン座標からワールド座標への返還
 		Vector3 worldPoint = GetComponent< Camera >().ScreenToWorldPoint( mousePos );
 		Vector3 direction = ( worldPoint - transform.position ).normalized;
