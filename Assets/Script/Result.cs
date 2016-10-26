@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine.SceneManagement;
 
 public class Result : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class Result : MonoBehaviour
 	public Text PlayerScoreText;
 	public int ActiveDelayTime;
 
+	// タイトルへ戻るボタン
+	[SerializeField] public Button ReturnButton;
+	// リプレイボタン
+	[SerializeField] public Button ReplayButton;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -20,6 +26,16 @@ public class Result : MonoBehaviour
 			.Delay( TimeSpan.FromSeconds( ActiveDelayTime ) )
 			.Subscribe( _ =>
 					ResultProcess()
+			);
+
+		ReturnButton.OnClickAsObservable()
+			.Subscribe(_ =>
+						SceneManager.LoadScene("Title")
+			);
+
+		ReplayButton.OnClickAsObservable()
+			.Subscribe( _ =>
+						 SceneManager.LoadScene( "Game" )
 			);
 
 	}

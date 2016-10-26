@@ -19,11 +19,13 @@ public class GunToMainCamera : MonoBehaviour
 	// しいたけを出現させる距離(奥行の位置)
 	public float SetDistance = 10.0f;
 	// しいたけの種類を変更するタイミング
-	public int ChangePrehubCnt;
+	public int ChangePrehabCnt;
 	// しいたけを撃った数をカウントし周期的に変える
 	private long _shotLoopCnt;
 	// しいたけを撃つ範囲のUI
 	[ SerializeField ] public Button ShotHitRange;
+	// タイマーのテキスト
+	public Timer TimerScript;
 
 	// Use this for initialization
 	void Start()
@@ -42,6 +44,7 @@ public class GunToMainCamera : MonoBehaviour
 		this.UpdateAsObservable().Where( _ => Input.GetMouseButtonDown( 0 ) )
 			.Where( _ => 0 < Input.mousePosition.x && w > Input.mousePosition.x )
 			.Where( _ => h / 3.0f < Input.mousePosition.y && h > Input.mousePosition.y )
+			.TakeWhile( _ => !TimerScript.TimeOutFlag() )
 			.Subscribe(x =>
 						OnMouseChick()
 			);
@@ -59,10 +62,10 @@ public class GunToMainCamera : MonoBehaviour
 	{
 		// 撃ったしいたけのカウントを監視
 		// 通常はカウント+1、しいたけが切り替わった時点で数値1に戻す
-		_shotLoopCnt = _shotLoopCnt == ChangePrehubCnt ? 1 : _shotLoopCnt + 1;
+		_shotLoopCnt = _shotLoopCnt == ChangePrehabCnt ? 1 : _shotLoopCnt + 1;
 		
 		// しいたけを切り替える処理
-		GameObject go = Instantiate( ShiitakeGunPrehab[ _shotLoopCnt / ChangePrehubCnt ], transform.position, transform.rotation ) as GameObject;
+		GameObject go = Instantiate( ShiitakeGunPrehab[ _shotLoopCnt / ChangePrehabCnt ], transform.position, transform.rotation ) as GameObject;
 		
 		// マウス座標取得、カメラから少し離れた位置から出すためZ値を変更
 		Vector3 mousePos = Input.mousePosition;
@@ -80,9 +83,9 @@ public class GunToMainCamera : MonoBehaviour
 	}
 
 	// しいたけの種類番号を返却
-	public long GetPrehubType()
+	public long GetPrehabType()
 	{
-		return ( _shotLoopCnt % ChangePrehubCnt ) / ( ChangePrehubCnt - 1 );
+		return ( _shotLoopCnt % ChangePrehabCnt ) / ( ChangePrehabCnt - 1 );
 
 	}
 

@@ -17,8 +17,8 @@ public class ChangeUITexture : MonoBehaviour
 	void Update()
 	{
 		// 次に投げるしいたけの種類でUIテキストを変更する
-		gameObject.GetComponent< Image >().sprite = ChangeTextures[ Camera.GetComponent< GunToMainCamera >().GetPrehubType() ];
-		test = Camera.GetComponent<GunToMainCamera>().GetPrehubType();
+		gameObject.GetComponent< Image >().sprite = ChangeTextures[ Camera.GetComponent< GunToMainCamera >().GetPrehabType() ];
+		test = Camera.GetComponent<GunToMainCamera>().GetPrehabType();
 
 	}
 
