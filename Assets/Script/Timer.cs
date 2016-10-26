@@ -34,9 +34,10 @@ public class Timer : MonoBehaviour
 	}
 
 	// 時間切れフラグ
+	// 時間切れでフラグがtrueを返します
 	public bool TimeOutFlag()
 	{
-		return TimerText.GetComponent<Number>().NumericValue > 0;
+		return TimerText.GetComponent<Number>().NumericValue <= 0;
 
 	}
 

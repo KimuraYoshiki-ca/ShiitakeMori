@@ -8,9 +8,9 @@ public class Fade : MonoBehaviour
 	// フェード処理フラグ
 	public bool FadeFlag;
 	// フェード遷移
-	private int FadeMode;
+	private int _fadeMode;
 	// アルファ値
-	private float Alpha;
+	private float _alpha;
 	// シーン名
 	private string _sceneName;
 
@@ -20,20 +20,20 @@ public class Fade : MonoBehaviour
 	{
 		gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2( Screen.width, Screen.height );
 		gameObject.GetComponent<Image>().color = Color.clear;
-		Alpha = 0.0f;
+		_alpha = 0.0f;
 
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		switch(FadeMode)
+		switch(_fadeMode)
 		{
 			// 通常状態
 			case 0:
 				if(FadeFlag)
 				{
-					FadeMode = 1;
+					_fadeMode = 1;
 
 				}
 
@@ -42,12 +42,12 @@ public class Fade : MonoBehaviour
 
 			// フェードイン
 			case 1:
-				if ((Alpha += 0.02f) <= 1.0f) gameObject.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, Alpha);
+				if ((_alpha += 0.02f) <= 1.0f) gameObject.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, _alpha);
 				else
 				{
-					FadeMode = 2;
-					Alpha = 1.0f;
-					gameObject.GetComponent<Image>().color = new Color( 0.0f, 0.0f, 0.0f, Alpha );
+					_fadeMode = 2;
+					_alpha = 1.0f;
+					gameObject.GetComponent<Image>().color = new Color( 0.0f, 0.0f, 0.0f, _alpha );
 					SceneManager.LoadScene( _sceneName );
 
 				}
@@ -57,12 +57,12 @@ public class Fade : MonoBehaviour
 
 			// フェードアウト
 			case 2:
-				if ((Alpha -= 0.02f) >= 0.0f) gameObject.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, Alpha);
+				if ((_alpha -= 0.02f) >= 0.0f) gameObject.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, _alpha);
 				else
 				{
-					FadeMode = 0;
-					Alpha = 0.0f;
-					gameObject.GetComponent<Image>().color = new Color( 0.0f, 0.0f, 0.0f, Alpha );
+					_fadeMode = 0;
+					_alpha = 0.0f;
+					gameObject.GetComponent<Image>().color = new Color( 0.0f, 0.0f, 0.0f, _alpha );
 					FadeFlag = false;
 
 				}
