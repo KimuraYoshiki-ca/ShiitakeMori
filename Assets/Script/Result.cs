@@ -10,27 +10,30 @@ public class Result : MonoBehaviour
 	//メンバ変数
 	// リザルトのゲームオブジェクト
 	public GameObject ResultGameObject;
+	public GameObject[] UnActiveGameObjects;
 	public Text ResultScoreText;
 	public Text PlayerScoreText;
 	public int ActiveDelayTime;
 
 	// タイトルへ戻るボタン
-	[SerializeField] public Button ReturnButton;
+	[SerializeField]
+	public Button ReturnButton;
 	// リプレイボタン
-	[SerializeField] public Button ReplayButton;
+	[SerializeField]
+	public Button ReplayButton;
 
 	// Use this for initialization
 	void Start()
 	{
-		this.UpdateAsObservable().Where( _ => gameObject.GetComponent< Timer >().TimeOutFlag() )
+		this.UpdateAsObservable().First( _ => gameObject.GetComponent<Timer>().TimeOutFlag() )
 			.Delay( TimeSpan.FromSeconds( ActiveDelayTime ) )
 			.Subscribe( _ =>
 					ResultProcess()
 			);
 
 		ReturnButton.OnClickAsObservable()
-			.Subscribe(_ =>
-						SceneManager.LoadScene("Title")
+			.Subscribe( _ =>
+						 SceneManager.LoadScene( "Title" )
 			);
 
 		ReplayButton.OnClickAsObservable()
@@ -50,10 +53,17 @@ public class Result : MonoBehaviour
 	void ResultProcess()
 	{
 		// リザルト画面を起動
-		ResultGameObject.SetActive(true);
+		ResultGameObject.SetActive( true );
 
 		// スコア値をリザルト内のスコア表示テキストに渡す
 		ResultScoreText.GetComponent<Number>().NumericValue = PlayerScoreText.GetComponent<Number>().NumericValue;
+
+		// 非アクティブ対象のゲームオブジェクト処理
+		for( int i = 0; i < UnActiveGameObjects.Length; i++ )
+		{
+			UnActiveGameObjects[ i ].SetActive( false );
+
+		}
 
 	}
 

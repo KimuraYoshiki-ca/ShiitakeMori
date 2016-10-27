@@ -8,6 +8,7 @@
 */
 public class BulletCollision : MonoBehaviour
 {
+	public long testcnt;
 	// Use this for initialization
 	void Start()
 	{
@@ -23,17 +24,17 @@ public class BulletCollision : MonoBehaviour
 	// 衝突判定処理
 	void OnCollisionEnter( Collision col )
 	{
-		// このGameObjectのRigidBodyを取得
-		Rigidbody rb = GetComponent< Rigidbody >();
-
 		// 普通のしいたけが赤いしいたけにぶつかったら、くっつける処理
-		if( col.gameObject.tag == "Red" && rb.gameObject.tag == "Normal" )
+		if( col.gameObject.tag == "Red" )
 		{
 			// FixedJointをGameObjectに追加
 			FixedJoint fj = gameObject.AddComponent< FixedJoint >();
 			fj.connectedBody = col.rigidbody;
 
 		}
+
+		testcnt++;
+		Debug.Log(testcnt.ToString() + " cnt");
 
 	}
 

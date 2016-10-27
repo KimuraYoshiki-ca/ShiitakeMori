@@ -9,7 +9,7 @@ public class Number : MonoBehaviour
 {
 	// メンバ変数
 	// セットされる最初の数値
-	public long NumericValue;
+	public int NumericValue;
 	// テキストのオブジェクト
 	public Text NumberText;
 	// 数値の前に表示したい文字(使用用途)
@@ -39,14 +39,14 @@ public class Number : MonoBehaviour
 	}
 
 	// 数値の加算処理(デフォルト引数1)
-	public void AddNumberCnt( long add = 1 )
+	public void AddNumberCnt( int add = 1 )
 	{
 		NumericValue += add;
 
 	}
 
 	// 数値の減算処理(デフォルト引数1)
-	public void SubNumberCnt( long sub = 1 )
+	public void SubNumberCnt( int sub = 1 )
 	{
 		NumericValue -= sub;
 
