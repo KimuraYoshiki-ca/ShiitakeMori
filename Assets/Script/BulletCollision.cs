@@ -9,10 +9,15 @@
 public class BulletCollision : MonoBehaviour
 {
 	public long testcnt;
+	public static float BreakForce;
+	public static float BreakTorque;
+
 	// Use this for initialization
 	void Start()
 	{
-		
+		BreakForce = FixedJointBreakAjustment.BreakForce;
+		BreakTorque = FixedJointBreakAjustment.BreakTorque;
+
 	}
 	
 	// Update is called once per frame
@@ -22,14 +27,16 @@ public class BulletCollision : MonoBehaviour
 	}
 
 	// 衝突判定処理
-	void OnCollisionEnter( Collision col )
+	void OnCollisionEnter( Collision collision )
 	{
 		// 普通のしいたけが赤いしいたけにぶつかったら、くっつける処理
-		if( col.gameObject.tag == "Red" )
+		if( collision.gameObject.tag == "Red" )
 		{
 			// FixedJointをGameObjectに追加
-			FixedJoint fj = gameObject.AddComponent< FixedJoint >();
-			fj.connectedBody = col.rigidbody;
+			FixedJoint fixedJoint = gameObject.AddComponent< FixedJoint >();
+			fixedJoint.connectedBody = collision.rigidbody;
+			fixedJoint.breakForce = BreakForce;
+			fixedJoint.breakTorque = BreakTorque;
 
 		}
 

@@ -50,3 +50,4 @@ Assets/uIntelliSense/
 # uWebkit Meta
 Assets/StreamingAssets/uWebkit/**/*.meta
 Assets/StreamingAssets/uWebkit.meta
+Assets/Script/Debug.meta
