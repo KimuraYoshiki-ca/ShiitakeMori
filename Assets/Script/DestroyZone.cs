@@ -24,10 +24,10 @@ public class DestroyZone : MonoBehaviour
 	// 衝突判定処理
 	void OnCollisionEnter( Collision col )
 	{
-		// 衝突判定が起こったら衝突した側のGameObjectを削除、スコアを減算する
-		//Destroy( col.gameObject );
-		//Number score = ScoreText.GetComponent< Number >();
-		//score.SubNumberCnt();
+		//衝突判定が起こったら衝突した側のGameObjectを削除、スコアを減算する
+		Destroy( col.gameObject );
+		Number score = ScoreText.GetComponent<Number>();
+		score.SubNumberCnt();
 
 	}
 

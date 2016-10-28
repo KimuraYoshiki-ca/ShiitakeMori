@@ -58,6 +58,9 @@ public class Result : MonoBehaviour
 		// スコア値をリザルト内のスコア表示テキストに渡す
 		ResultScoreText.GetComponent<Number>().NumericValue = PlayerScoreText.GetComponent<Number>().NumericValue;
 
+		// タイマーを0に設定
+		PlayerScoreText.GetComponent<Number>().NumericValue = 0;
+
 		// 非アクティブ対象のゲームオブジェクト処理
 		for( int i = 0; i < UnActiveGameObjects.Length; i++ )
 		{
