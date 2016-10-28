@@ -110,7 +110,7 @@ public class InputCamera : MonoBehaviour
 			0.0f );
 
 
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || UNITY_IOS
 		// マウスの移動量取得
 		_mouseMoveAmountY = -Input.touches.First().deltaPosition.y;
 
