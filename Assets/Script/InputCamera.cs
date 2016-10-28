@@ -82,13 +82,13 @@ public class InputCamera : MonoBehaviour
 		// 回転処理
 		transform.Rotate(
 			0.0f,
-			Input.GetAxis( "Mouse X" ) * RotSpeedY,
+			Input.GetAxis( "Mouse X" ) * RotSpeedY * 10.0f,
 			0.0f);
 
 		// メインカメラの移動
 		MainCameraTransform.position += new Vector3(
 			0.0f,
-			_mouseMoveAmountY * MoveSpeedY,
+			_mouseMoveAmountY * MoveSpeedY * 10.0f,
 			0.0f );
 
 		// メインカメラの移動制御
@@ -99,7 +99,7 @@ public class InputCamera : MonoBehaviour
 
 		// メインカメラの回転
 		MainCameraTransform.Rotate(
-			_mouseMoveAmountY * RotSpeedX,
+			_mouseMoveAmountY * RotSpeedX * 10.0f,
 			0.0f,
 			0.0f );
 
