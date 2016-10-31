@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class TimerAjustment : MonoBehaviour
 {
 	public Button MyselfButton;
-	public Number TimerObject;
+	public NumberText TimerObject;
 	public int AjustValue;
 
 	// Use this for initialization

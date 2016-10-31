@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#if UNITY_ANDROID || UNITY_IOS
+using System.Linq;
+#endif
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
@@ -40,9 +42,10 @@ public class InputCamera : MonoBehaviour
 		// スクリーンの大きさを取得、ボタンの大きさを設定
 		float w = Screen.width;
 		float h = Screen.height;
-		Vector3 vector3 = new Vector3( 0.0f, -h * 0.5f + h / 8.0f, 0.0f );
-		RotationHitRange.GetComponent<RectTransform>().anchoredPosition = vector3;
-		RotationHitRange.GetComponent<RectTransform>().sizeDelta = new Vector2( w, h / 4.0f );
+		//Vector3 vector3;
+		//vector3 = new Vector3( 0.0f, -h * 0.5f + h / 8.0f, 0.0f );
+		//RotationHitRange.GetComponent<RectTransform>().anchoredPosition = vector3;
+		//RotationHitRange.GetComponent<RectTransform>().sizeDelta = new Vector2( w, h / 4.0f );
 
 		// 回転処理フラグを立てる
 		this.UpdateAsObservable().Where( _ => Input.GetMouseButtonDown( 0 ) )
@@ -65,14 +68,8 @@ public class InputCamera : MonoBehaviour
 			);
 
 	}
-	
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
 
-
+	// カメラ回転処理
 	void Move()
 	{
 #if UNITY_EDITOR

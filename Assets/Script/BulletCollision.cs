@@ -8,22 +8,15 @@
 */
 public class BulletCollision : MonoBehaviour
 {
-	public long testcnt;
 	public static float BreakForce;
 	public static float BreakTorque;
 
 	// Use this for initialization
 	void Start()
 	{
-		BreakForce = FixedJointBreakAjustment.BreakForce;
-		BreakTorque = FixedJointBreakAjustment.BreakTorque;
+		BreakForce = FixedJointBreakAjustment.StaticBreakForce;
+		BreakTorque = FixedJointBreakAjustment.StaticBreakTorque;
 
-	}
-	
-	// Update is called once per frame
-	void Update()
-	{
-	
 	}
 
 	// 衝突判定処理
@@ -39,9 +32,6 @@ public class BulletCollision : MonoBehaviour
 			fixedJoint.breakTorque = BreakTorque;
 
 		}
-
-		testcnt++;
-		Debug.Log(testcnt.ToString() + " cnt");
 
 	}
 

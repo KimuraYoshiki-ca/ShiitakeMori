@@ -1,24 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/* ChangeUITextureクラス
+	UI用に表示するテクスチャを切り替える
+*/
 public class ChangeUITexture : MonoBehaviour
 {
-	public Sprite[] ChangeTextures;
-	public GameObject Camera;
-	public long test;
-
-	// Use this for initialization
-	void Start()
-	{
-	
-	}
+	public Sprite[] ChangeSprites;
+	public GunToMainCamera Camera;
 	
 	// Update is called once per frame
 	void Update()
 	{
 		// 次に投げるしいたけの種類でUIテキストを変更する
-		gameObject.GetComponent< Image >().sprite = ChangeTextures[ Camera.GetComponent< GunToMainCamera >().GetPrehabType() ];
-		test = Camera.GetComponent<GunToMainCamera>().GetPrehabType();
+		gameObject.GetComponent< Image >().sprite = ChangeSprites[ Camera.GetPrehabType() ];
 
 	}
 

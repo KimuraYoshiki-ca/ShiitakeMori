@@ -2,6 +2,7 @@
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.UI;
+using Debug = System.Diagnostics.Debug;
 
 /* GunToMainCameraクラス
 	クリックで弾を発射
@@ -13,19 +14,21 @@ public class GunToMainCamera : MonoBehaviour
 	// しいたけのプレハブ
 	public GameObject[] ShiitakeGunPrehab;
 	// スコアテキストのGameObject
-	public GameObject ScoreText;
+	public NumberText ScoreText;
 	// しいたけを飛ばす力
-	public float InitializationVelocity = 8.0f;
+	public float InitialVelocity = 8.0f;
 	// しいたけを出現させる距離(奥行の位置)
-	public float SetDistance = 10.0f;
+	public float DistanceFromCaera = 10.0f;
 	// しいたけの種類を変更するタイミング
-	public int ChangePrehabCnt;
+	public int ChangePrehabTimming;
 	// しいたけを撃った数をカウントし周期的に変える
 	private long _shotLoopCnt;
 	// しいたけを撃つ範囲のUI
 	[ SerializeField ] public Button ShotHitRange;
 	// タイマーのテキスト
 	public Timer TimerScript;
+	// しいたけを飛ばすタッチできる範囲の比率
+	public float TouchRangeRatioForObject;
 
 	// Use this for initialization
 	void Start()
@@ -36,24 +39,18 @@ public class GunToMainCamera : MonoBehaviour
 		// スクリーンの大きさを取得、ボタンの大きさを設定
 		float w = Screen.width;
 		float h = Screen.height;
-		ShotHitRange.GetComponent< RectTransform >().anchoredPosition = new Vector3( 0.0f, h * 0.5f - h / 4.0f, 0.0f );
-		ShotHitRange.GetComponent< RectTransform >().sizeDelta = new Vector2( w, h / 4.0f * 2.0f );
+		//ShotHitRange.GetComponent< RectTransform >().anchoredPosition = new Vector3( 0.0f, h * 0.5f - h / 4.0f, 0.0f );
+		//ShotHitRange.GetComponent< RectTransform >().sizeDelta = new Vector2( w, h / 4.0f * 2.0f );
 
 
 		// しいたけをマウス左クリックで飛ばす処理(UniRx)
 		this.UpdateAsObservable().Where( _ => Input.GetMouseButtonDown( 0 ) )
 			.Where( _ => 0 < Input.mousePosition.x && w > Input.mousePosition.x )
-			.Where( _ => h / 3.0f < Input.mousePosition.y && h > Input.mousePosition.y )
-			.TakeWhile( _ => !TimerScript.TimeOutFlag() )
+			.Where( _ => h / TouchRangeRatioForObject < Input.mousePosition.y && h > Input.mousePosition.y )
+			.TakeWhile( _ => !TimerScript.IsTimeOut() )
 			.Subscribe(x =>
 						OnMouseChick()
 			);
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
 
 	}
 
@@ -62,30 +59,30 @@ public class GunToMainCamera : MonoBehaviour
 	{
 		// 撃ったしいたけのカウントを監視
 		// 通常はカウント+1、しいたけが切り替わった時点で数値1に戻す
-		_shotLoopCnt = _shotLoopCnt == ChangePrehabCnt ? 1 : _shotLoopCnt + 1;
+		_shotLoopCnt = _shotLoopCnt == ChangePrehabTimming ? 1 : _shotLoopCnt + 1;
 		
 		// しいたけを切り替える処理
-		GameObject go = Instantiate( ShiitakeGunPrehab[ _shotLoopCnt / ChangePrehabCnt ], transform.position, transform.rotation ) as GameObject;
+		GameObject gameObject = Instantiate( ShiitakeGunPrehab[ _shotLoopCnt / ChangePrehabTimming ], transform.position, transform.rotation ) as GameObject;
 		
 		// マウス座標取得、カメラから少し離れた位置から出すためZ値を変更
 		Vector3 mousePos = Input.mousePosition;
-		mousePos.z = SetDistance;
+		mousePos.z = DistanceFromCaera;
 		
 		// スクリーン座標からワールド座標への返還
 		Vector3 worldPoint = GetComponent< Camera >().ScreenToWorldPoint( mousePos );
 		Vector3 direction = ( worldPoint - transform.position ).normalized;
-		go.GetComponent< Rigidbody >().velocity = direction * InitializationVelocity;
+		Debug.Assert(gameObject != null, "gameObject != null");
+		gameObject.GetComponent< Rigidbody >().velocity = direction * InitialVelocity;
 
 		// フィールド上にあるしいたけの数をカウント
-		Number score = ScoreText.GetComponent< Number >();
-		score.AddNumberCnt();
+		ScoreText.AddNumberCnt();
 
 	}
 
 	// しいたけの種類番号を返却
 	public long GetPrehabType()
 	{
-		return ( _shotLoopCnt % ChangePrehabCnt ) / ( ChangePrehabCnt - 1 );
+		return ( _shotLoopCnt % ChangePrehabTimming ) / ( ChangePrehabTimming - 1 );
 
 	}
 

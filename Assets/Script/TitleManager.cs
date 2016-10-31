@@ -2,25 +2,22 @@
 using UniRx;
 using UnityEngine.UI;
 
+/* TitleManagerクラス
+	タイトルのあらゆることの制御をするクラス
+*/
 public class TitleManager : MonoBehaviour
 {
 	// メンバ変数
 	// 押されるボタン
 	[ SerializeField ] public Button IconButton;
 	public string GameSceneName;
-	public Image FadeImage;
 
 	// Use this for initialization
 	void Start()
 	{
-		IconButton.OnClickAsObservable().Subscribe( _ => FadeImage.GetComponent<Fade>().SetFade( GameSceneName ) );
+		// ゲームシーンへ移動
+		IconButton.OnClickAsObservable().Subscribe( _ => FaderManager.Instance.LoadLevel( GameSceneName ) );
 
 	}
 	
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
-
 }

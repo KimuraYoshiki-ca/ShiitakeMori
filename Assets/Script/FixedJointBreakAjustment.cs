@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
+/* FixedJointBreakAjustmentクラス
+	Jointのパラメータ調整用スクリプト
+*/
 public class FixedJointBreakAjustment : MonoBehaviour
 {
-	public static float BreakForce;
-	public static float BreakTorque;
-	public float BreakForce_;
-	public float BreakTorque_;
+	public static float StaticBreakForce;
+	public static float StaticBreakTorque;
+	public float BreakForce;
+	public float BreakTorque;
 
 	void Start()
 	{
-		BreakForce = BreakForce_;
-		BreakTorque = BreakTorque_;
+		StaticBreakForce = BreakForce;
+		StaticBreakTorque = BreakTorque;
 
 	}
 
 	void Update()
 	{
-		BreakForce = BreakForce_;
-		BreakTorque = BreakTorque_;
+		StaticBreakForce = BreakForce;
+		StaticBreakTorque = BreakTorque;
 
 	}
 

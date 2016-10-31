@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
 {
 	// メンバ変数
 	// タイマーテキストのGameObject
-	public GameObject TimerText;
+	public NumberText TimerText;
 	// ゲーム開始時のタイマーが止まっているカウント
 	public int FirstStopTime;
 
@@ -20,26 +20,20 @@ public class Timer : MonoBehaviour
 		// UniRxでタイマーの処理(リアルタイム換算)
 		this.UpdateAsObservable().ThrottleFirst( TimeSpan.FromSeconds( 1 ) )
 			.Skip( FirstStopTime )
-			.Where( _ => TimerText.GetComponent< Number >().NumericValue > 0 )
+			.Where( _ => TimerText.NumericValue > 0 )
+			.Where( _ => CountDownStart.IsCountDownFinished() )
 			.Subscribe( _ =>
-			TimerText.GetComponent< Number >().SubNumberCnt()
+				TimerText.SubNumberCnt()
 			);
 
-	}
-	
-	// Update is called once per frame
-	void Update()
-	{
-	
 	}
 
 	// 時間切れフラグ
 	// 時間切れでフラグがtrueを返します
-	public bool TimeOutFlag()
+	public bool IsTimeOut()
 	{
-		return TimerText.GetComponent<Number>().NumericValue <= 0;
+		return TimerText.NumericValue <= 0;
 
 	}
-
 
 }
